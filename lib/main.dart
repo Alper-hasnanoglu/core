@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled/ui/facilities/facilities_page.dart';
 import 'ui/login/login_page.dart';
 
 main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget{
        primaryColor: const Color(0xFF742B83),
 
      ),
-     home: const Welcome(),
+     home: const FacilitiesList(),
    );
 
   }
