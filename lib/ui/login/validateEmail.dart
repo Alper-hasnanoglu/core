@@ -12,10 +12,3 @@ String? validateEmail(String? email) {
   }
 }
 
-Container buildL() {
-
-  return Container(
-    height: 200,
-    child: Image.asset('images/core-colors.jpg'),
-  );
-}

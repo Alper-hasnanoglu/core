@@ -1,32 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/services/facilities_api.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled/providers/facilities_provider.dart';
 
 import 'facilities_list_item.dart';
 
-class FacilitiesList extends StatelessWidget {
+class FacilitiesList extends StatefulWidget {
   const FacilitiesList({super.key});
 
   @override
+  State<FacilitiesList> createState() => _FacilitiesListState();
+}
+
+class _FacilitiesListState extends State<FacilitiesList> {
+  @override
+  void initState() {
+    super.initState();
+    FacilitiesProvider().getFacilities();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var facilitiess = FacilitiesApi().getFakeFacilities();
+    var provider = Provider.of<FacilitiesProvider>(context);
+    var facilitiess = provider.facilities;
+    if (provider.state == FacilitiesUIsStates.loading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          WelcomeHeader(),
-          OurOffices(),
-          Expanded(
-            child: ListView.builder(
-              itemCount: facilitiess.length,
-
-                itemBuilder: (context,i){
-              return FacilityItem(facilitiess[i]);
-            },
-           ),
-          ),
-
-              ],
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const WelcomeHeader(),
+            const OurOffices(),
+            Expanded(
+              child: ListView.builder(
+                itemCount: facilitiess.length,
+                itemBuilder: (context, i) {
+                  return FacilityItem(facilitiess[i]);
+                },
+              ),
             ),
+          ],
+        ),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
               color: Colors.purple, borderRadius: BorderRadius.circular(25)),
@@ -107,8 +125,7 @@ class WelcomeHeader extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 20),
                 ),
-                Text('Yaser Hasan',
-                    style: TextStyle(color: Colors.purple)),
+                Text('Yaser Hasan', style: TextStyle(color: Colors.purple)),
               ],
             ),
           ],

@@ -1,22 +1,72 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
-import '../../allProjectClasses.dart';
 import 'package:provider/provider.dart';
-import '../../allProjectFunctions.dart';
+import 'validateEmail.dart';
 import '../facilities/facilities_page.dart';
 
-class Welcome extends StatefulWidget {
-  const Welcome({Key? key}) : super(key: key);
+
+
+Widget email = const Align(
+  alignment: Alignment.topLeft,
+  child: Text(
+    'Email', // add the goal text above the input box
+    style: TextStyle(
+      fontSize:
+      13, // customize the style of the goal text
+    ),
+  ),
+);
+Widget validation =  TextFormField(
+  validator: validateEmail,
+
+  decoration: InputDecoration(
+    labelText: 'Add Email Here',
+    floatingLabelBehavior: FloatingLabelBehavior.never,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+
+    ),
+  ),
+);
+Widget password = const Align(
+  alignment: Alignment.topLeft,
+  child: Text(
+    'Password', // add the goal text above the input box
+    style: TextStyle(
+      fontSize:
+      13, // customize the style of the goal text
+    ),
+  ),
+);
+
+class LoginModel extends ChangeNotifier {
+  bool _isLoading = false;
+
+  bool get isLoading => _isLoading;
+
+  get facilities => null;
+
+  void setLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
+
+  fetchFacilities() {}
+}
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<Welcome> createState() => _WelcomeState();
+  State<LoginPage> createState() => _LoginPageState();
 }
-
-class _WelcomeState extends State<Welcome> {
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   bool _obscureText = true;
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -46,13 +96,17 @@ class _WelcomeState extends State<Welcome> {
                     children: [
                       Column(
                         children: [
-                          buildL(),
+                          SizedBox(
+                            height: 200,
+                            child: Image.asset('images/core-colors.jpg'),
+                          ),
                           const Text(
                             'Welcome Again!',
                             style: TextStyle(
                               color: Color(0xFF742B83), // set the text color
                               fontSize: 35, // set the font size
-                              fontWeight: FontWeight.bold, // set the font weight
+                              fontWeight:
+                                  FontWeight.bold, // set the font weight
                             ),
                             textAlign:
                                 TextAlign.center, // set the text alignment
@@ -70,7 +124,6 @@ class _WelcomeState extends State<Welcome> {
                           const SizedBox(width: 30, height: 100),
                           Column(
                             children: [
-
                               email,
                               validation,
                             ],
@@ -126,7 +179,11 @@ class _WelcomeState extends State<Welcome> {
                             borderRadius: BorderRadius.circular(10),
                             child: MaterialButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => FacilitiesList(),));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const FacilitiesList(),
+                                    ));
                               },
                               minWidth: 400,
                               height: 50,

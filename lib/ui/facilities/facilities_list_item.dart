@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/facility.dart';
+import 'facilities_booking.dart';
 
 class FacilityItem extends StatelessWidget {
   const FacilityItem(this.facility, {super.key});
@@ -22,7 +23,16 @@ class FacilityItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 200,width: 2000, child:Image.asset(facility.image,width: 250,)),
+                GestureDetector(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FacilityBokking(),)),
+                  child: SizedBox(
+                      height: 200,
+                      width: double.infinity,
+                      child: Image.network(
+                        facility.image,
+                        width: 250,
+                      )),
+                ),
                 const SizedBox(height: 10),
                 Text(facility.title),
                 const SizedBox(height: 10),
@@ -32,9 +42,12 @@ class FacilityItem extends StatelessWidget {
                     Text(facility.subtitle),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
+                        backgroundColor:
+                            facility.state ? Colors.green : Colors.red,
                       ),
-                      child: const Text('Available'),
+                      child: facility.state
+                          ? const Text('Available')
+                          : const Text('Unavailable'),
                       onPressed: () {},
                     ),
                   ],
@@ -47,8 +60,3 @@ class FacilityItem extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
